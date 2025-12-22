@@ -1,0 +1,41 @@
+# General
+download_dir: Music
+archive_file: data/download_archive.txt
+
+# Audio
+audio_format: mp3          # mp3 | m4a | flac
+audio_quality: best        # best | 320 | 256 | 192
+embed_metadata: true
+embed_thumbnail: true
+
+# UX / Output Control
+show_now_downloading: true       # show track name before progress
+show_album_name: true            # show album once per track
+show_track_counter: true         # [3/42]
+show_speed: true                 # speed + ETA
+show_progress_bar: true          # progress bar on/off
+quiet_mode: false                # suppress almost everything
+
+# Network / Stability
+retries: 10
+socket_timeout: 30
+
+# Logging
+log_level: INFO                   # INFO | DEBUG | ERROR
+log_file: logs/app.log
+
+
+profile: normal   # slow | normal | fast
+
+profiles:
+  slow:
+    concurrent_fragments: 1
+    limit_rate: "500K"
+
+  normal:
+    concurrent_fragments: 4
+    limit_rate: null
+
+  fast:
+    concurrent_fragments: 8
+    limit_rate: null
