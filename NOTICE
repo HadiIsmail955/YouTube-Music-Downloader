@@ -1,0 +1,19 @@
+NOTICE
+
+YouTube Music Downloader
+
+This software is provided for PERSONAL USE ONLY.
+
+This project uses the following third-party tools and libraries:
+
+- yt-dlp (https://github.com/yt-dlp/yt-dlp)
+- ytmusicapi (https://github.com/sigma67/ytmusicapi)
+- ffmpeg (https://ffmpeg.org)
+
+All third-party tools are subject to their own licenses and terms.
+
+The author of this project is not affiliated with YouTube, YouTube Music,
+or Google.
+
+Use of this software must comply with all applicable laws and the terms of
+service of YouTube and YouTube Music.
