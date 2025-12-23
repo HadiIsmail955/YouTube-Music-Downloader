@@ -13,43 +13,42 @@ def ensure_paths(cfg):
     os.makedirs(os.path.dirname(cfg["archive_file"]), exist_ok=True)
 
 
+def sanitize(name: str) -> str:
+    return (
+        name.replace("/", "_")
+        .replace("\\", "_")
+        .replace(":", " -")
+        .strip()
+    )
+
+
 def download(url, fallback_artist):
     cfg = load_config()
     ensure_paths(cfg)
 
-    safe_artist = fallback_artist.replace("/", "_").replace("\\", "_")
+    safe_artist = sanitize(fallback_artist)
 
+    print(f"\n▶ Downloading:\n{url}")
+    print(f"   Artist folder: {safe_artist}")
 
     cmd = [
         "yt-dlp",
-
-        # Core download
         "-x",
         "--audio-format", cfg["audio_format"],
-
-        # Archive (THIS is what enables skipping)
         "--download-archive", cfg["archive_file"],
-
         "--embed-metadata",
+        "--parse-metadata", f"album_artist:{safe_artist}",
         "--parse-metadata", "artist:%(artist)s",
-        "--parse-metadata", "album_artist:%(album_artist)s",
         "--embed-thumbnail",
-
-        # Network stability
         "--retries", str(cfg.get("retries", 10)),
         "--socket-timeout", str(cfg.get("socket_timeout", 30)),
-
-        # Progress (SAFE)
         "--progress",
-
-        # Output
         "-o",
         f"{cfg['download_dir']}/{safe_artist}/%(album)s/%(title)s.%(ext)s",
 
         url
     ]
-
-    # Performance
+    
     cmd.extend([
         "--concurrent-fragments",
         str(cfg.get("concurrent_fragments", 4))
