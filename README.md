@@ -25,6 +25,7 @@ Powered by:
 - **ytmusicapi**
 - **yt-dlp**
 - **ffmpeg**
+- **AtomicParsley**
 
 ---
 

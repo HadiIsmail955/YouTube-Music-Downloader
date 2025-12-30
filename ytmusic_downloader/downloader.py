@@ -33,22 +33,32 @@ def download(url, fallback_artist):
 
     cmd = [
         "yt-dlp",
+
         "-x",
         "--audio-format", cfg["audio_format"],
         "--download-archive", cfg["archive_file"],
+
         "--embed-metadata",
-        "--parse-metadata", f"album_artist:{safe_artist}",
-        "--parse-metadata", "artist:%(artist)s",
+        "--parse-metadata", "album:%(playlist_title)s",
+
+        "--replace-in-metadata", "artist", rf"^(?!{safe_artist}$).*", safe_artist,
+        "--replace-in-metadata", "album_artist", rf"^(?!{safe_artist}$).*", safe_artist,
+        "--replace-in-metadata", "composer", rf"^(?!{safe_artist}$).*", safe_artist,
+        "--replace-in-metadata", "artist_sort", rf"^(?!{safe_artist}$).*", safe_artist,
+        "--replace-in-metadata", "album_artist_sort", rf"^(?!{safe_artist}$).*", safe_artist,
+
         "--embed-thumbnail",
-        "--retries", str(cfg.get("retries", 10)),
-        "--socket-timeout", str(cfg.get("socket_timeout", 30)),
-        "--progress",
+        "--convert-thumbnails", "jpg",
+
+        "--retries", "10",
+        "--socket-timeout", "30",
+
         "-o",
         f"{cfg['download_dir']}/{safe_artist}/%(album)s/%(title)s.%(ext)s",
 
         url
     ]
-    
+
     cmd.extend([
         "--concurrent-fragments",
         str(cfg.get("concurrent_fragments", 4))
@@ -57,11 +67,10 @@ def download(url, fallback_artist):
     if cfg.get("limit_rate"):
         cmd.extend(["--limit-rate", cfg["limit_rate"]])
 
-    # Behavior
     if cfg.get("skip_existing", True):
         cmd.append("--no-overwrites")
 
     if cfg.get("continue_downloads", True):
         cmd.append("--continue")
 
-    subprocess.run(cmd)
+    subprocess.run(cmd, check=True)

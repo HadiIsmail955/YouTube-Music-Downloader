@@ -2,8 +2,11 @@
 download_dir: Music
 archive_file: data/download_archive.txt
 
+parallel_downloads: 4
+auto_update: true 
+
 # Audio
-audio_format: mp3          # mp3 | m4a | flac
+audio_format: m4a          # mp3 | m4a | flac
 audio_quality: best        # best | 320 | 256 | 192
 embed_metadata: true
 embed_thumbnail: true
